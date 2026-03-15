@@ -1,3 +1,4 @@
+# FIX: I asked copilot to fix the difficulty range misatch
 def get_range_for_difficulty(difficulty: str):
     """Return (low, high) inclusive range for a given difficulty.
 
@@ -9,7 +10,8 @@ def get_range_for_difficulty(difficulty: str):
         return 1, 50
     if difficulty == "Hard":
         return 1, 100
-    return 1, 50
+    return 1, 50 # FIX: Inline editor was used to set the default return value to that of normal difficulty
+
 
 
 def parse_guess(raw: str):
