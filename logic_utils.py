@@ -72,6 +72,38 @@ def check_guess(guess, secret):
     return ("Too Low", "📈 Go HIGHER!")
 
 
-def update_score(current_score: int, outcome: str, attempt_number: int):
-    """Update score based on outcome and attempt number."""
-    raise NotImplementedError("Refactor this function from app.py into logic_utils.py")
+def update_score(current_score: int, outcome: str, attempt_number: int) -> int:
+    """Return updated score based on outcome and attempt number.
+
+    Notes:
+    - `attempt_number` is 1-based (first guess is 1, second is 2, etc.).
+    - Win points decay with attempts: points = WIN_BASE - WIN_DECAY * (attempt_number - 1).
+      For a win on the first guess (attempt_number=1): 100 - 10*0 = 100 points.
+      Minimum points awarded for a win is MIN_WIN_POINTS.
+    - For a "Too High" outcome a parity rule is applied: +PARITY_POINTS when
+      attempt_number is even, -PARITY_POINTS when odd (keeps original behavior).
+    - "Too Low" always subtracts PARITY_POINTS.
+
+    Returns the new score (int).
+    """
+    WIN_BASE = 100
+    WIN_DECAY = 10
+    MIN_WIN_POINTS = 10
+    PARITY_POINTS = 5
+
+    if outcome == "Win":
+        points = WIN_BASE - WIN_DECAY * (attempt_number - 1)
+        if points < MIN_WIN_POINTS:
+            points = MIN_WIN_POINTS
+        return current_score + points
+
+    elif outcome == "Too High":
+        # Preserve the original parity-based behavior
+        if attempt_number % 2 == 0:
+            return current_score + PARITY_POINTS
+        return current_score - PARITY_POINTS
+
+    elif outcome == "Too Low":
+        return current_score - PARITY_POINTS
+
+    return current_score
