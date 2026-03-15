@@ -10,7 +10,7 @@ def parse_guess(raw: str):
         return False, None, "Enter a guess."
 
     try:
-        if "." in raw:
+        if "." in raw: # FIXME: logic breaks here
             value = int(float(raw))
         else:
             value = int(raw)
@@ -50,8 +50,8 @@ difficulty = st.sidebar.selectbox(
     index=1,
 )
 
-attempt_limit_map = {
-    "Easy": 6,
+attempt_limit_map = { 
+    "Easy": 6, # FIXME: logic breaks here
     "Normal": 8,
     "Hard": 5,
 }
