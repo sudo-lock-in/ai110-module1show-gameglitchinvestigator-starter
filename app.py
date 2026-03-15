@@ -1,24 +1,6 @@
 import random
 import streamlit as st
-from logic_utils import check_guess, get_range_for_difficulty
-
-def parse_guess(raw: str):
-    if raw is None:
-        return False, None, "Enter a guess."
-
-    if raw == "":
-        return False, None, "Enter a guess."
-
-    try:
-        if "." in raw: # FIXME: logic breaks here
-            value = int(float(raw))
-        else:
-            value = int(raw)
-    except Exception:
-        return False, None, "That is not a number."
-
-    return True, value, None
-
+from logic_utils import check_guess, get_range_for_difficulty, parse_guess
 
 def update_score(current_score: int, outcome: str, attempt_number: int):
     if outcome == "Win":
@@ -79,8 +61,8 @@ if "history" not in st.session_state:
 
 st.subheader("Make a guess")
 
-st.info( 
-    f"Guess a number between 1 and 100. " # FIXME: logic breaks here
+st.info(
+    f"Guess an integer between {low} and {high}. "
     f"Attempts left: {attempt_limit - st.session_state.attempts}"
 ) 
 
@@ -92,7 +74,7 @@ with st.expander("Developer Debug Info"):
     st.write("History:", st.session_state.history)
 
 raw_guess = st.text_input(
-    "Enter your guess:",
+    "Enter an integer:",
     key=f"guess_input_{difficulty}"
 )
 

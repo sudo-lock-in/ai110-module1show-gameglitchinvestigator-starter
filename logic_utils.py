@@ -14,11 +14,27 @@ def get_range_for_difficulty(difficulty: str):
 
 def parse_guess(raw: str):
     """
-    Parse user input into an int guess.
+    Parse user input into an int guess. Accept only integer input (no floats).
 
     Returns: (ok: bool, guess_int: int | None, error_message: str | None)
     """
-    raise NotImplementedError("Refactor this function from app.py into logic_utils.py")
+    if raw is None:
+        return False, None, "Enter a guess."
+
+    raw_str = str(raw).strip()
+    if raw_str == "":
+        return False, None, "Enter a guess."
+
+    # Reject floats and other non-integer formats (e.g. '3.0' or '1e3')
+    if "." in raw_str:
+        return False, None, "That is not an integer."
+
+    try:
+        value = int(raw_str)
+    except Exception:
+        return False, None, "That is not an integer."
+
+    return True, value, None
 
 
 def check_guess(guess, secret):
