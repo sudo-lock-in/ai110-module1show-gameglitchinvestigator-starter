@@ -12,13 +12,13 @@ import random
 import streamlit as st
 
 def get_range_for_difficulty(difficulty: str):
-    if difficulty == "Easy":
+    if difficulty == "Easy": # FIXME: logic breaks here
         return 1, 20
     if difficulty == "Normal":
         return 1, 100
     if difficulty == "Hard":
         return 1, 50
-    return 1, 100
+    return 1, 100 
 
 
 def parse_guess(raw: str):
@@ -48,7 +48,7 @@ def check_guess(guess, secret):
             return "Too High", "📈 Go HIGHER!"
         else:
             return "Too Low", "📉 Go LOWER!"
-    except TypeError:
+    except TypeError: # FIXME: logic breaks here
         g = str(guess)
         if g == secret:
             return "Win", "🎉 Correct!"
@@ -61,7 +61,7 @@ def update_score(current_score: int, outcome: str, attempt_number: int):
     if outcome == "Win":
         points = 100 - 10 * (attempt_number + 1)
         if points < 10:
-            points = 10
+            points = 10 
         return current_score + points
 
     if outcome == "Too High":
@@ -116,10 +116,10 @@ if "history" not in st.session_state:
 
 st.subheader("Make a guess")
 
-st.info(
-    f"Guess a number between 1 and 100. "
+st.info( 
+    f"Guess a number between 1 and 100. " # FIXME: logic breaks here
     f"Attempts left: {attempt_limit - st.session_state.attempts}"
-)
+) 
 
 with st.expander("Developer Debug Info"):
     st.write("Secret:", st.session_state.secret)
@@ -149,9 +149,9 @@ if new_game:
     st.success("New game started.")
     st.rerun()
 
-if st.session_state.status != "playing":
+if st.session_state.status != "playing": 
     if st.session_state.status == "won":
-        st.success("You already won. Start a new game to play again.")
+        st.success("You already won. Start a new game to play again.") # FIXME: logic breaks here
     else:
         st.error("Game over. Start a new game to try again.")
     st.stop()
