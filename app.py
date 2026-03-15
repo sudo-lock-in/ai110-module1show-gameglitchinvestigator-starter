@@ -16,8 +16,8 @@ difficulty = st.sidebar.selectbox(
 )
 
 attempt_limit_map = { 
-    "Easy": 6, # FIXME: logic breaks here
-    "Normal": 8,
+    "Easy": 10,
+    "Normal": 7,
     "Hard": 5,
 }
 attempt_limit = attempt_limit_map[difficulty]
@@ -79,7 +79,7 @@ if new_game:
 
 if st.session_state.status != "playing": 
     if st.session_state.status == "won":
-        st.success("You already won. Start a new game to play again.") # FIXME: logic breaks here
+        st.success("🎉 You already won! Start a new game to play again.")
     else:
         st.error("Game over. Start a new game to try again.")
     st.stop()
