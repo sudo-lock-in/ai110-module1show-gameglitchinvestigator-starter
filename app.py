@@ -1,15 +1,6 @@
-# TODO errors I have spotted: 
-# normal & hard have swapped ranges. 
-# choosing a difficulty doesnt change top banner info (stuck on displaying the range for "normal")
-# start over button doesnt work. the page is stuck on "you already won. start new game to play again"
-# the history in debug section is also broken after u win. so basically no input is registered after win 
-# (it does create a new game as shown in the debug menu its just not displaying it properly & taking input)
-# normal & easy should have swapped number of attempts. in the debug menu # of attempts is stuck on 1 for all
-# in the sidebar the number of attempts is +1 to the number of attempts shown in top banner
-# guessing 0 and being told to go lower... the secret is 89. hints are broken
-# history doesnt update properly
 import random
 import streamlit as st
+from logic_utils import check_guess
 
 def get_range_for_difficulty(difficulty: str):
     if difficulty == "Easy": # FIXME: logic breaks here
@@ -37,24 +28,6 @@ def parse_guess(raw: str):
         return False, None, "That is not a number."
 
     return True, value, None
-
-
-def check_guess(guess, secret):
-    if guess == secret:
-        return "Win", "🎉 Correct!"
-
-    try:
-        if guess > secret:
-            return "Too High", "📈 Go HIGHER!"
-        else:
-            return "Too Low", "📉 Go LOWER!"
-    except TypeError: # FIXME: logic breaks here
-        g = str(guess)
-        if g == secret:
-            return "Win", "🎉 Correct!"
-        if g > secret:
-            return "Too High", "📈 Go HIGHER!"
-        return "Too Low", "📉 Go LOWER!"
 
 
 def update_score(current_score: int, outcome: str, attempt_number: int):
