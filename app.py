@@ -15,6 +15,16 @@ difficulty = st.sidebar.selectbox(
     index=1,
 )
 
+# Reset game when difficulty changes
+if "current_difficulty" not in st.session_state:
+    st.session_state.current_difficulty = difficulty
+elif st.session_state.current_difficulty != difficulty:
+    st.session_state.current_difficulty = difficulty
+    st.session_state.attempts = 0
+    st.session_state.score = 0
+    st.session_state.status = "playing"
+    st.session_state.history = []
+
 attempt_limit_map = { 
     "Easy": 10,
     "Normal": 7,
