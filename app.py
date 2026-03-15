@@ -1,3 +1,13 @@
+# TODO errors I have spotted: 
+# normal & hard have swapped ranges. 
+# choosing a difficulty doesnt change top banner info (stuck on displaying the range for "normal")
+# start over button doesnt work. the page is stuck on "you already won. start new game to play again"
+# the history in debug section is also broken after u win. so basically no input is registered after win 
+# (it does create a new game as shown in the debug menu its just not displaying it properly & taking input)
+# normal & easy should have swapped number of attempts. in the debug menu # of attempts is stuck on 1 for all
+# in the sidebar the number of attempts is +1 to the number of attempts shown in top banner
+# guessing 0 and being told to go lower... the secret is 89. hints are broken
+# history doesnt update properly
 import random
 import streamlit as st
 
@@ -133,7 +143,9 @@ with col3:
 
 if new_game:
     st.session_state.attempts = 0
-    st.session_state.secret = random.randint(1, 100)
+    st.session_state.secret = random.randint(low, high)
+    st.session_state.status = "playing"
+    st.session_state.history = []
     st.success("New game started.")
     st.rerun()
 

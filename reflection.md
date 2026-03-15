@@ -5,7 +5,9 @@ Answer each question in 3 to 5 sentences. Be specific and honest about what actu
 ## 1. What was broken when you started?
 
 - What did the game look like the first time you ran it?
-- List at least two concrete bugs you noticed at the start  
+I put a winning input and it broke afterwards. Was not accepting any new input or starting a new game. I expected the game to basically refresh and begin a session but it was just stuck on telling me I won.
+- List at least two concrete bugs you noticed at the start
+Top blue banner not accurately updating and difficulty logic being mismatched.
   (for example: "the secret number kept changing" or "the hints were backwards").
 
 ---
