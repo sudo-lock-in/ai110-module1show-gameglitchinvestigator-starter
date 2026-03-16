@@ -25,14 +25,12 @@ It wrote the code, ran away, and now the game is unplayable.
 
 ## 📝 Document Your Experience
 
-- [ ] Describe the game's purpose.
-- [ ] Detail which bugs you found.
-- [ ] Explain what fixes you applied.
+- This is a guessing game with score tracking, various difficulties, and hints.
+- I found there was an issue with each of the above mentioned features. It was at first not possible to win max points, the logic of the difficulties being mismatched, and the hints being inaccurate. 
+- To fix these issues, I made sure attempts were being initialized properly and that score tracking deducated points reasonably. I also swapped and improved the ranges and attempt counts for the difficulties. Moreover, I made sure that for the hint that the proper comparison between the guess and the secret was being made.
 
 ## 📸 Demo
 
-- [ ] [Insert a screenshot of your fixed, winning game here]
-
-## 🚀 Stretch Features
-
-- [ ] [If you choose to complete Challenge 4, insert a screenshot of your Enhanced Game UI here]
+ ![alt text](image.png)
+### Pytest Results
+![alt text](image-1.png)

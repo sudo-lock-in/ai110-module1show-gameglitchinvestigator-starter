@@ -15,15 +15,8 @@ difficulty = st.sidebar.selectbox(
     index=1,
 )
 
-# Reset game when difficulty changes
-if "current_difficulty" not in st.session_state:
-    st.session_state.current_difficulty = difficulty
-elif st.session_state.current_difficulty != difficulty:
-    st.session_state.current_difficulty = difficulty
-    st.session_state.attempts = 0
-    st.session_state.score = 0
-    st.session_state.status = "playing"
-    st.session_state.history = []
+# FIX: Get range and attempt limits first
+low, high = get_range_for_difficulty(difficulty)
 
 attempt_limit_map = { 
     "Easy": 10,
@@ -32,7 +25,16 @@ attempt_limit_map = {
 }
 attempt_limit = attempt_limit_map[difficulty]
 
-low, high = get_range_for_difficulty(difficulty)
+# FIX: Reset game when difficulty changes
+if "current_difficulty" not in st.session_state:
+    st.session_state.current_difficulty = difficulty
+elif st.session_state.current_difficulty != difficulty:
+    st.session_state.current_difficulty = difficulty
+    st.session_state.attempts = 0
+    st.session_state.score = 0
+    st.session_state.status = "playing"
+    st.session_state.history = []
+    st.session_state.secret = random.randint(low, high)
 
 st.sidebar.caption(f"Range: {low} to {high}")
 st.sidebar.caption(f"Attempts allowed: {attempt_limit}")
@@ -41,7 +43,7 @@ if "secret" not in st.session_state:
     st.session_state.secret = random.randint(low, high)
 
 if "attempts" not in st.session_state:
-    st.session_state.attempts = 0
+    st.session_state.attempts = 0 # FIX: initialize to 0 for proper attempt tracking
 
 if "score" not in st.session_state:
     st.session_state.score = 0
@@ -54,6 +56,7 @@ if "history" not in st.session_state:
 
 st.subheader("Make a guess")
 
+# FIX: used variables instead of hardcoded values to make the UI more accurate
 st.info(
     f"Guess an integer between {low} and {high}. "
     f"Attempts left: {attempt_limit - st.session_state.attempts}"
@@ -74,11 +77,14 @@ with col2:
 with col3:
     show_hint = st.checkbox("Show hint", value=True)
 
+# FIX: allowed submissions with enter key
 # Check both button click and Enter key submission
 if submit or st.session_state.get("submit_guess", False):
     st.session_state.submit_guess = False  # Reset flag
     submit = True
 
+# FIX: made sure all game variables are properly reset at new game
+# - had to reject the clearing of the text field because it would cause an error. the user can simply backspace
 if new_game:
     st.session_state.attempts = 0
     st.session_state.secret = random.randint(low, high)
@@ -101,12 +107,13 @@ if submit:
     if not ok:
         st.error(err)
     elif guess_int < low or guess_int > high:
-        st.error(f"Please guess a number between {low} and {high}.")
+        st.error(f"Please guess a number between {low} and {high}.") # FIX: added exception for guess out range
+        # - I had asked copilot if this feature would be optimal & decided it would be good to implement it
     else:
         st.session_state.history.append(guess_int)
         st.session_state.attempts += 1
         
-        # Remove the buggy secret type conversion
+        # FIX: Remove the buggy secret type conversion
         outcome, message = check_guess(guess_int, st.session_state.secret)
 
         if show_hint:
@@ -133,10 +140,12 @@ if submit:
                     f"The secret was {st.session_state.secret}. "
                     f"Score: {st.session_state.score}"
                 )
-        
-        st.rerun()
+            else:
+                st.rerun()
 
-# Move debug info here, after all game logic
+# FIX: Move debug info here, after all game logic. this is what properly solved the issues with the debug menu
+# - Copilot had made different suggestions to fix the debug menu before this but none of them truly addressed the issue
+# - I had to improve my way of explaining the issue to solve this
 with st.expander("Developer Debug Info"):
     st.write("Secret:", st.session_state.secret)
     st.write("Attempts:", st.session_state.attempts)

@@ -1,4 +1,6 @@
-# FIX: I asked copilot to fix the difficulty range misatch
+# FIX: all below methods were refactored from app.py using Copilot Agent mode
+
+# FIX: I asked copilot to fix the difficulty range mismatch
 def get_range_for_difficulty(difficulty: str):
     """Return (low, high) inclusive range for a given difficulty.
 
@@ -10,10 +12,12 @@ def get_range_for_difficulty(difficulty: str):
         return 1, 50
     if difficulty == "Hard":
         return 1, 100
-    return 1, 50 # FIX: Inline editor was used to set the default return value to that of normal difficulty
+    return 1, 50 # FIX: Inline editor was used to set this default return value to that of normal difficulty
+# - which was missed by Copilot's initial fix
 
 
-
+# FIX: Copilot initially wanted me to continue to allow floats when optimizing this method 
+# - But I decided integers would make most sense and requested that implementation instead.
 def parse_guess(raw: str):
     """
     Parse user input into an int guess. Accept only integer input (no floats).
@@ -38,7 +42,7 @@ def parse_guess(raw: str):
 
     return True, value, None
 
-
+# FIX: the logic is updated to compare guess with the secret and suggest accurate hints
 def check_guess(guess, secret):
     """
     Compare guess to secret and return (outcome, message) as a plain tuple.
@@ -73,7 +77,9 @@ def check_guess(guess, secret):
         return ("Too High", "📉 Go LOWER!")
     return ("Too Low", "📈 Go HIGHER!")
 
-
+# FIX: Copilot had initially fixed the method to have clear variables but with the same logic
+# - however, after asking Copilot to explain the code I noticed the user cannot recieve max 100 points
+# so I requested an appropiate update for the logic around attempts and point calculation for win
 def update_score(current_score: int, outcome: str, attempt_number: int) -> int:
     """Return updated score based on outcome and attempt number.
 
